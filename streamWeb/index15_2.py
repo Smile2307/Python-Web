@@ -38,6 +38,11 @@ def BMI_info():
     | 正常範圍 | 18.5 ≦ BMI ＜ 24 | -  |
     | 異常範圍 | 過重：24 ≦ BMI ＜ 27 <br>輕度肥胖：27 ≦ BMI ＜ 30 <br>中度肥胖：30 ≦ BMI ＜ 35 <br>重度肥胖：BMI ≧ 35 | 男性：≧90公分  <br>女性：≧80公分  |
     ''', unsafe_allow_html=True)
+'''
+def clear_info():
+    st.session_state.weight_input_1 = 0.0
+    st.session_state.height_input_1 = 0.0
+'''
 
 # 自訂函式來顯示表單並處理輸入
 def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
@@ -92,9 +97,15 @@ def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
                         st.markdown(f"您的BMI值為: {bmi:.2f} <br> 體重: {txt}", unsafe_allow_html=True)
 
                 if bmi_clear:
+                    #只能使用CALL BACK方式清除
                     st.session_state.weight_key = 0.0
                     st.session_state.height_key = 0.0
+
+                    #clear_info()
+
                     #為何不能將st.session_state.weight_input_1設定為0.0???
+                    #st.session_state.weight_input_1 = 0.0
+                    #st.session_state.height_input_1 = 0.0
                     #st.session_state[weight_key] = 0.0
                     #st.session_state[height_key] = 0.0
                     #print(st.session_state.weight_input_1)
