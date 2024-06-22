@@ -25,9 +25,12 @@ def cal_callback(col3):
         col3.markdown("<br><br>", unsafe_allow_html=True)
         col3.markdown(f"您的BMI值為: {bmi:.2f} <br> 體重: {txt}", unsafe_allow_html=True)
 
-def clear_callback(col3):
-    st.session_state.weight_input_2 = 0.0
-    st.session_state.height_input_2 = 0.0
+def clear_callback(col3,weight_key,Height_key):
+    #st.session_state.weight_input_2 = 0.0
+    #st.session_state.height_input_2 = 0.0
+    st.session_state[weight_key] = 0.0
+    st.session_state[weight_key] = 0.0
+
     #st.experimental_rerun()
 
 def BMI_info():
@@ -38,11 +41,11 @@ def BMI_info():
     | 正常範圍 | 18.5 ≦ BMI ＜ 24 | -  |
     | 異常範圍 | 過重：24 ≦ BMI ＜ 27 <br>輕度肥胖：27 ≦ BMI ＜ 30 <br>中度肥胖：30 ≦ BMI ＜ 35 <br>重度肥胖：BMI ≧ 35 | 男性：≧90公分  <br>女性：≧80公分  |
     ''', unsafe_allow_html=True)
-'''
+
 def clear_info():
     st.session_state.weight_input_1 = 0.0
     st.session_state.height_input_1 = 0.0
-'''
+
 
 # 自訂函式來顯示表單並處理輸入
 def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
@@ -66,11 +69,11 @@ def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
             if session_flag:
                 bmi_cal = st.form_submit_button("開始計算")
                 st.markdown('<br>', unsafe_allow_html=True)
-                bmi_clear = st.form_submit_button("清除結果")
+                bmi_clear = st.form_submit_button("清除結果",on_click=clear_info)
             else:
                 st.form_submit_button("開始計算", on_click=cal_callback, args=(col3,))
                 st.markdown('<br>', unsafe_allow_html=True)
-                st.form_submit_button("清除結果", on_click=clear_callback, args=(col3,))
+                st.form_submit_button("清除結果", on_click=clear_callbackweight_key,Height_key, args=(col3,))
 
         with col3:
             if session_flag:
@@ -95,7 +98,9 @@ def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
 
                         st.markdown("<br><br>", unsafe_allow_html=True)
                         st.markdown(f"您的BMI值為: {bmi:.2f} <br> 體重: {txt}", unsafe_allow_html=True)
-
+                
+                #使用form container 的input widdge不可使用session方式更改設定值，只可使用call back方式
+                '''
                 if bmi_clear:
                     #只能使用CALL BACK方式清除
                     st.session_state.weight_key = 0.0
@@ -110,6 +115,7 @@ def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
                     #st.session_state[height_key] = 0.0
                     #print(st.session_state.weight_input_1)
                     #st.experimental_rerun()
+                '''
 
 # 使用 tabs 來顯示兩個表單
 tab1, tab2 = st.tabs(["session_state", "call_back"])
