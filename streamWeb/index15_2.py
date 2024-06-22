@@ -25,11 +25,11 @@ def cal_callback(col3):
         col3.markdown("<br><br>", unsafe_allow_html=True)
         col3.markdown(f"您的BMI值為: {bmi:.2f} <br> 體重: {txt}", unsafe_allow_html=True)
 
-def clear_callback(col3,weight_key,height_key):
-    #st.session_state.weight_input_2 = 0.0
-    #st.session_state.height_input_2 = 0.0
-    st.session_state[weight_key] = 0.0
-    st.session_state[height_key] = 0.0
+def clear_callback(col3,):
+    st.session_state.weight_input_2 = 0.0
+    st.session_state.height_input_2 = 0.0
+    #st.session_state[weight_key] = 0.0
+    #st.session_state[height_key] = 0.0
 
 
 
@@ -75,7 +75,7 @@ def display_bmi_form(form_key, weight_key, height_key, session_flag=True):
             else:
                 st.form_submit_button("開始計算", on_click=cal_callback, args=(col3,))
                 st.markdown('<br>', unsafe_allow_html=True)
-                st.form_submit_button("清除結果", on_click=clear_callback(weight_key,Height_key), args=(col3,))
+                st.form_submit_button("清除結果", on_click=clear_callback, args=(col3,))
 
         with col3:
             if session_flag:
