@@ -34,7 +34,7 @@ else:
             
             df0 = pd.DataFrame(display_data,
                                columns=['站點名稱','總數'])
-            
+            #新增color
             st.scatter_chart(df0,
                              x='站點名稱',
                              y='總數',
