@@ -8,14 +8,18 @@ from source import Root
 
 
 
-data_str = source.download_youbike()
-root = Root.model_validate_json(data_str)
-data = root.model_dump()
+try:
+    data_str = source.download_youbike()
+except Exception as e:
+    st.error(e)
+else:
+    root = Root.model_validate_json(data_str)
+    data = root.model_dump()
 
-def ijk(value):
-    return value['行政區']
+    def ijk(value):
+        return value['行政區']
 
-areas:list[str] = list(set(map(ijk,data)))
+    areas:list[str] = list(set(map(ijk,data)))
 
-option = st.selectbox("請選擇行政區",areas)
-st.write("您選擇:", option)
+    option = st.selectbox("請選擇行政區",areas)
+    st.write("您選擇:", option)
