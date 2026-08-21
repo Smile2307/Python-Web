@@ -1,49 +1,64 @@
-# Smile2307 Codex Skills
+# Smile2307 Codex Skills v4
 
 這套 Skills 是為 Python、MicroPython、Raspberry Pi、Pico W、ESP32/ESP8266 與 GitHub 開發流程設計的 Codex 工作框架。
 
-## 設計原則
-
-- 先分析與規劃，再修改程式。
-- 硬體相關程式修改前，先確認 MCU、Pin、匯流排與裝置位址。
-- 修改後必須檢查 diff，並提供可執行的測試方式。
-- GitHub CI 與 PR Review 採可追蹤、最小變更原則。
-- 第三方 Skills 不直接複製；本目錄以工作流程與規則為主，避免不必要的授權與維護風險。
-
-## Skills
-
-| Skill | 用途 | 優先級 |
-|---|---|---|
-| `create-plan` | 需求分析與實作計畫 | 核心 |
-| `embedded-python` | MicroPython / Raspberry Pi / ESP32 硬體開發 | 核心 |
-| `github-ci` | GitHub Actions / CI 診斷原則 | 核心 |
-| `github-pr-review` | PR Review 意見處理 | 核心 |
-| `engineering-workflow` | Plan → Implement → Test → Review | 核心 |
-| `repo-search` | 大型專案搜尋與最小上下文原則 | 建議 |
-| `frontend` | Streamlit / Web UI 品質規則 | 選用 |
-| `research` | 技術文件與研究資料查證 | 選用 |
-| `security` | 基本安全檢查與威脅建模 | 選用 |
-
-## 建議使用流程
+## v4 架構
 
 ```text
-需求
-  ↓
-create-plan
-  ↓
-檢查專案與 AGENTS.md
-  ↓
-確認 Python / MicroPython / 硬體環境
-  ↓
-Implement
-  ↓
-Test
-  ↓
-Review diff
-  ↓
-GitHub CI / PR
+Repository
+   ↓
+codex-skills/skills/*/SKILL.md
+   ↓
+validate.py
+   ↓
+install.py
+   ↓
+本機 Skills 目錄
+   ↓
+Codex
 ```
 
-## 目錄
+Repository 是唯一來源；本機安裝目錄是產物，不應手工修改後再回寫來源。
 
-每個 Skill 使用獨立的 `SKILL.md`。這些文件可作為 Codex 專案級工作規範，也可以再依實際 Codex 安裝方式同步到使用者的 Skills 目錄。
+## 核心 Skills
+
+- `create-plan` — 先分析與建立實作計畫
+- `engineering-workflow` — Plan → Inspect → Implement → Test → Review
+- `embedded-python` — MicroPython / Raspberry Pi / Pico W / ESP32 / ESP8266
+- `github-ci` — GitHub Actions CI 診斷
+- `github-pr-review` — PR Review 意見處理
+- `repo-search` — 最小上下文搜尋
+
+## 選用 Skills
+
+- `frontend` — Streamlit / Web UI
+- `research` — 官方文件與研究資料查證
+- `security` — secrets、網路服務與基本安全檢查
+
+## v4 指令
+
+```bash
+# 驗證
+python codex-skills/validate.py
+
+# 核心 Skills dry-run
+python codex-skills/install.py --target ~/.agents/skills --core-only --dry-run
+
+# 安裝核心 Skills
+python codex-skills/install.py --target ~/.agents/skills --core-only
+
+# 安裝全部 Skills
+python codex-skills/install.py --target ~/.agents/skills
+```
+
+## 硬體保護
+
+涉及 GPIO、I2C、SPI、UART、ADC、PWM、MQTT 或感測器時，Codex 必須先確認實際 board、firmware、Pin、bus、address 與 driver/API，不得猜測。
+
+## GitHub CI
+
+`.github/workflows/validate-codex-skills.yml` 會在 Skills 相關變更時驗證目錄結構與核心安裝 dry-run。
+
+## 第三方內容
+
+本專案不直接複製 Medium 文章或其他第三方 Skill 的實作內容；需要整合時，先檢查來源與授權，再依本專案工作流程重新實作。
