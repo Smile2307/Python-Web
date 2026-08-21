@@ -1,16 +1,34 @@
 # 安裝與同步
 
-## 專案內使用
+這套 Skills 採「Repository 原始碼 + 本機同步」模式。Repository 是唯一來源，`install.py` 負責把選定的 `SKILL.md` 同步到本機 Skills 目錄。
 
-將本目錄納入專案後，讓 Codex 依 `codex-skills/AGENTS.md` 與各 `skills/*/SKILL.md` 執行工作規範。
+## 1. 驗證 Skills
 
-## 使用者級 Skills
+```bash
+python codex-skills/validate.py
+```
 
-若目前 Codex 版本支援使用者級 Skills，可將需要的 `SKILL.md` 複製到使用者 Skills 目錄；不要整個 repository 當成單一 Skill 載入。
+## 2. 先做 Dry Run
 
-## 建議
+```bash
+python codex-skills/install.py --target ~/.agents/skills --core-only --dry-run
+```
 
-第一階段只啟用：
+## 3. 安裝核心 Skills
+
+```bash
+python codex-skills/install.py --target ~/.agents/skills --core-only
+```
+
+## 4. 安裝全部 Skills
+
+```bash
+python codex-skills/install.py --target ~/.agents/skills
+```
+
+> `~/.agents/skills` 是本專案目前建議的本機同步目標；實際 Codex 版本若使用不同的 Skills 目錄，請以該版本的官方文件為準。
+
+## 核心 Skills
 
 - create-plan
 - engineering-workflow
@@ -19,12 +37,22 @@
 - github-pr-review
 - repo-search
 
-frontend、research、security 依任務需要啟用。
+## 選用 Skills
 
-## 驗證
+- frontend
+- research
+- security
 
-安裝後先要求 Codex：
+## 驗證安裝
 
-> 分析目前專案並提出修改計畫，不要修改任何檔案。
+安裝後，在 Codex 專案中執行：
 
-確認它能遵守 plan-first 規則後，再進行實際修改。
+> 檢查目前專案，先不要修改任何檔案。請分析專案結構、找出與任務相關的檔案，並提出完整實作計畫。
+
+確認它先分析與規劃，再開始修改。
+
+## 安全原則
+
+- 不把 GitHub token、API key、password 或 Wi-Fi/MQTT credentials 放入 Skills。
+- 不用安裝腳本覆寫 repository 來源檔案。
+- 第三方 Skill 若要加入，先檢查來源、授權與內容，再以本專案規範整合。
