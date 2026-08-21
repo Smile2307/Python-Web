@@ -1,0 +1,24 @@
+name: Validate Codex Skills
+
+on:
+  push:
+    paths:
+      - 'codex-skills/**'
+      - '.github/workflows/validate-codex-skills.yml'
+  pull_request:
+    paths:
+      - 'codex-skills/**'
+      - '.github/workflows/validate-codex-skills.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate skill layout
+        run: python codex-skills/validate.py
+      - name: Installer dry run
+        run: python codex-skills/install.py --target /tmp/codex-skills --dry-run --core-only
